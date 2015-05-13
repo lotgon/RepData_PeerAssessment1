@@ -5,14 +5,28 @@ output:
     keep_md: true
 ---
 
-
 ## Loading and preprocessing the data
+```{r, warning=FALSE, message=FALSE}
+require(data.table)
 
-
+dataFrame <- read.csv(unz("activity.zip", "activity.csv"))
+data <- as.data.table(dataFrame)
+```
 
 ## What is mean total number of steps taken per day?
-
-
+### Histogram of the total number of steps taken each day
+```{r}
+hist(data[,.(sumSteps = sum(steps)), by=date]$sumSteps, xlab="Total steps per day", main = "Histogram of total steps per day")
+```
+### Mean total number of steps per day.
+```{r}
+data[, .(meanSteps = mean(steps)), by=date]
+```
+  
+### Median total number of steps per day
+```{r}
+data[, .(medianSteps = as.double(median(steps))), by=date]
+```
 
 ## What is the average daily activity pattern?
 
