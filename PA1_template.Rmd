@@ -17,7 +17,7 @@ data <- as.data.table(dataFrame)
 ```{r}
 hist(data[,.(sumSteps = sum(steps)), by=date]$sumSteps, xlab="Total steps per day", main = "Histogram of total steps per day")
 ```
-.  
+-------------
 ###Mean total number of steps per day
 ```{r}
 data[, .(sum=sum(steps)), by=date][,mean(sum, na.rm=TRUE)]
@@ -33,13 +33,20 @@ data[, .(sum=sum(steps)), by=date][,median(sum, na.rm=TRUE)]
 meanStepsPerInterval<-data[,.(meanSteps = mean(steps, na.rm=TRUE)), by=interval]
 plot(meanStepsPerInterval$meanSteps~meanStepsPerInterval$interval, type = "l", xlab="Time Interval(hhmm)", ylab="mean steps", main="Mean Steps per time of day")
 ```
+--------------
 ### Maximum activity in interval
 ```{r}
 interval<-meanStepsPerInterval[which.max(meanSteps),interval]
 paste(interval%/%100, interval%%100, sep=":")
 ```
 ## Imputing missing values
+Percent of missing values
+```{r}
+sum(!complete.cases(data)) / nrow(data)
+```
+13% percent of missing data introduces bias. We will fill the missing values with 5-minute mean values.
 
-
+```{r}
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
